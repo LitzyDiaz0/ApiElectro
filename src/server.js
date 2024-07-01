@@ -16,9 +16,7 @@ app.use(express.urlencoded({extended: false}));
 // Variables globales
  
 // Rutas
-app.get('/', (req, res) =>{
-    res.send('Funcionando mi bro B)');
-})
+app.use(require('./routes/indexRoutes'));
 
 // Archivos staticos
 app.use(express.static(path.join(__dirname, 'public'))); //Hace que cualquiera que acceda a la carpeta de manera facil

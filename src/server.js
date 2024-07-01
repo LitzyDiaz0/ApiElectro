@@ -18,6 +18,7 @@ app.use(express.urlencoded({extended: false}));
 // Rutas
 app.use(require('./routes/indexRoutes'));
 app.use(require('./routes/hardware.routes'));
+app.use(require('./routes/users.routes'));
 
 // Archivos staticos
 app.use(express.static(path.join(__dirname, 'public'))); //Hace que cualquiera que acceda a la carpeta de manera facil

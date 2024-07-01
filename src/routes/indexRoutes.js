@@ -1,12 +1,10 @@
 const express = require ('express')
 const router = express.Router();
-const { renderIndex } = require('../controllers/indexControllers')
+const { renderIndex, renderHardware } = require('../controllers/indexControllers')
 
 router.get('/', renderIndex)
 
-router.get('/hardware', (req, res) =>{
-    res.render('hardware')
-})
+// router.get('/hardware', renderHardware)
 
 
 module.exports = router; 

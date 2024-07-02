@@ -11,7 +11,9 @@ app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views')) //ubica la carpeta views de manera global
 
 // Middleware
+app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+
 
 // Variables globales
  

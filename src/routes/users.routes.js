@@ -1,7 +1,15 @@
 const { Router } = require('express');
 const router =  Router();
+// const {validateCreate} = require('../validators/users.validator')
 
-const { renderSignUpGet, renderSignUpGetOne, renderUpdateUser, renderDeleteUser, signUp, renderSignInForm, signIn, logOut } = require ('../controllers/users.controller')
+const { renderSignUpGet,
+     renderSignUpGetOne,
+      renderUpdateUser, 
+      renderDeleteUser, 
+      signUp, 
+      renderSignInForm, 
+      signIn, 
+      logOut } = require ('../controllers/users.controller')
 
 // Crear usuario
 router.post('/users/signup', signUp);
@@ -20,8 +28,10 @@ router.delete('/users/signup/:id', renderDeleteUser);
 
 router.get('/users/signin', renderSignInForm);
 
+//iniciar sesion
 router.post('/users/signin', signIn);
 
+//cerrar sesion
 router.get('/users/logout', logOut);
 
 module.exports = router; 

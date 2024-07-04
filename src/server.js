@@ -12,11 +12,11 @@ app.set('views', path.join(__dirname, 'views')) //ubica la carpeta views de mane
 
 // Middleware
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 
 // Variables globales
- 
+
 // Rutas
 app.use(require('./routes/indexRoutes'));
 app.use(require('./routes/hardware.routes'));

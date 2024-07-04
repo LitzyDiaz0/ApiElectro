@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
 
 const HardwareSchema = new Schema({
-    name: { type: String, required: true },
-    description: { type: String, required: true }
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  precio: { type: Number, required: true }, 
 });
 
-
-// Exportamos el modelo basado en el esquema
-// El modelo 'Hardware' se asociará con la colección 'hardwares' en la base de datos
 module.exports = mongoose.model('Hardware', HardwareSchema);

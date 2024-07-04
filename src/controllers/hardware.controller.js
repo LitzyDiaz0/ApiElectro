@@ -9,9 +9,9 @@ hardwareController.renderHardwareForm = (req, res) => {
 
 // Crear nuevo hardware (POST /hardware/add)
 hardwareController.createNewHardware = async (req, res) => {
-    const { name, description } = req.body;
+    const { name, description, precio } = req.body; // Asegúrate de que 'precio' esté en minúsculas
     try {
-        const newHardware = new Hardware({ name, description });
+        const newHardware = new Hardware({ name, description, precio }); // Asegúrate de que 'precio' esté en minúsculas
         await newHardware.save();
         res.status(201).json({ message: 'Nuevo hardware creado', hardware: newHardware });
     } catch (error) {
@@ -46,9 +46,9 @@ hardwareController.renderEditHardware = async (req, res) => {
 // Actualizar hardware (PUT /hardware/edit/:id)
 hardwareController.updateHardware = async (req, res) => {
     const { id } = req.params;
-    const { name, description } = req.body;
+    const { name, description, precio } = req.body; // Asegúrate de que 'precio' esté en minúsculas
     try {
-        const hardware = await Hardware.findByIdAndUpdate(id, { name, description }, { new: true });
+        const hardware = await Hardware.findByIdAndUpdate(id, { name, description, precio }, { new: true }); // Asegúrate de que 'precio' esté en minúsculas
         if (!hardware) {
             return res.status(404).json({ message: 'Hardware no encontrado' });
         }

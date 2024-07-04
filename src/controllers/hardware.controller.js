@@ -1,27 +1,75 @@
+const Hardware = require('../models/hardware.js');
+
 const hardwareController = {};
 
+// Renderizar el formulario para nuevo hardware (GET /hardware/add)
+hardwareController.renderHardwareForm = (req, res) => {
+    res.send('Formulario de nuevo hardware');
+};
 
-hardwareController.renderHardwareForm = (req, res) =>{
-    res.send('Hardware añadido');
-}
+// Crear nuevo hardware (POST /hardware/add)
+hardwareController.createNewHardware = async (req, res) => {
+    const { name, description } = req.body;
+    try {
+        const newHardware = new Hardware({ name, description });
+        await newHardware.save();
+        res.status(201).json({ message: 'Nuevo hardware creado', hardware: newHardware });
+    } catch (error) {
+        res.status(400).json({ message: 'Error al crear nuevo hardware', error });
+    }
+};
 
-hardwareController.createNewHardware = (req, res) =>{
-    res.send('nuevo hardware')
-}
+// Obtener todos los hardware (GET /hardware)
+hardwareController.renderAllHardware = async (req, res) => {
+    try {
+        const hardwares = await Hardware.find();
+        res.json(hardwares);
+    } catch (error) {
+        res.status(400).json({ message: 'Error al obtener hardware', error });
+    }
+};
 
-hardwareController.renderAllHardware = (req, res) =>{
-    res.send('Todo el hardware');
-}
+// Obtener hardware específico para editar (GET /hardware/edit/:id)
+hardwareController.renderEditHardware = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const hardware = await Hardware.findById(id);
+        if (!hardware) {
+            return res.status(404).json({ message: 'Hardware no encontrado' });
+        }
+        res.json(hardware);
+    } catch (error) {
+        res.status(400).json({ message: 'Error al obtener hardware', error });
+    }
+};
 
-hardwareController.renderEditHardware = (req, res)=>{
-    res.send('Editar el hardware seleccionado')
-} 
+// Actualizar hardware (PUT /hardware/edit/:id)
+hardwareController.updateHardware = async (req, res) => {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    try {
+        const hardware = await Hardware.findByIdAndUpdate(id, { name, description }, { new: true });
+        if (!hardware) {
+            return res.status(404).json({ message: 'Hardware no encontrado' });
+        }
+        res.json({ message: 'Hardware actualizado', hardware });
+    } catch (error) {
+        res.status(400).json({ message: 'Error al actualizar hardware', error });
+    }
+};
 
-hardwareController.updateHardware = (req, res) =>{
-    res.send('Hardware actualizado')
-}
+// Eliminar hardware (DELETE /hardware/delete/:id)
+hardwareController.deleteRegisterHardware = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const hardware = await Hardware.findByIdAndDelete(id);
+        if (!hardware) {
+            return res.status(404).json({ message: 'Hardware no encontrado' });
+        }
+        res.json({ message: 'Hardware eliminado', hardware });
+    } catch (error) {
+        res.status(400).json({ message: 'Error al eliminar hardware', error });
+    }
+};
 
-hardwareController.deleteRegisterHardware = (req, res) =>{
-    res.send('Hardware eliminado')
-}
 module.exports = hardwareController;

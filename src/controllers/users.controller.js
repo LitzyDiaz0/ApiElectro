@@ -2,13 +2,26 @@ const usersController = {};
 const User = require('../models/user');
 const UserSchema = require('../models/user');
 
-usersController.signUp = (req, res) =>{
-    const user = UserSchema(req.body);
-    user
-    .save()
-    .then((data)=> res.json(data))
-    .catch((error)=> res.json({message: error}));
-}//Regsitra al usuario
+// usersController.signUp = (req, res) =>{
+//     const user = UserSchema(req.body);
+//     user
+//     .save()
+//     .then((data)=> res.json(data))
+//     .catch((error)=> res.json({message: error}));
+// }
+
+usersController.signUp = async (req, res) => {
+    const { name, password } = req.body;
+    const user = new User({ name });
+    user.password = await user.encryptPassword(password);
+    
+    try {
+        const savedUser = await user.save();
+        res.json(savedUser);
+    } catch (error) {
+        res.json({ message: error });
+    }
+}; //Regsitra al usuario
 
 usersController.renderSignUpGet = (req, res) =>{
     UserSchema
@@ -46,9 +59,26 @@ usersController.renderSignInForm = (req, res) =>{
 
 } //carga los datos para iniciar sesion
 
-usersController.signIn = (req, res) =>{
+usersController.signIn = async (req, res) => {
+    const { name, password } = req.body;
+    
+    try {
+        const user = await User.findOne({ name });
+        if (!user) {
+            return res.status(400).json({ message: 'Usuario no encontrado' });
+        }
+        
+        const isMatch = await user.matchPassword(password);
+        if (isMatch) {
+            res.json({ message: 'Ingreso exitoso' });
+        } else {
+            res.status(400).json({ message: 'Contraseña invalida' });
+        }
+    } catch (error) {
+        res.json({ message: error });
+    }
+}; //inicia sesion
 
-} //inicia sesion
 
 usersController.logOut = (req,res) =>{
     res.send('log out')

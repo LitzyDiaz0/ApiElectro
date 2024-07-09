@@ -5,7 +5,9 @@ require('dotenv').config();
 
 const UserSchema = new mongoose.Schema ({
     name: { type: String, required: true},
-    password: { type: String, required: true}
+    password: { type: String, required: true},
+    rol: {type: String, default: 'user'},
+    status:{type: String, default: 'sin confirmar'}
 
 },{
     timestamps: true

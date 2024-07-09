@@ -39,7 +39,7 @@ router.get('/users/logout', logOut);
 
 // Ejemplo de ruta protegida
 router.get('/protected', auth, (req, res) => { 
-  res.send('Ruta protegida, funciona el tokeeeen :D');
+  res.json({ message: 'Acceso autorizado a la ruta protegida' });
 });
 
 module.exports = router; 

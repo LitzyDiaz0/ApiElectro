@@ -98,12 +98,12 @@ usersController.signIn = async (req, res) => {
         }
 
         // Generar token JWT
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '40m' });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '2h' });
 
         // Configurar la cookie con el token JWT
         res.cookie('token', token, {
             httpOnly: true, // Evita que el token sea accesible desde JavaScript en el navegador
-            maxAge: 1000 * 60 * 40, // Tiempo de vida del token en milisegundos (40 minutos en este ejemplo)
+            maxAge: 1000 * 60 * 60 * 2, // Tiempo de vida del token en milisegundos (40 minutos en este ejemplo)
         });
 
         // Enviar respuesta al cliente

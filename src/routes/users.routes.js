@@ -17,7 +17,7 @@ const { renderSignUpGet,
 router.post('/users/signup', signUp);
 
 //Trae los registros ya guardados
-router.get('/users/signup', renderSignUpGet);
+router.get('/users/signup', auth, renderSignUpGet);
 
 //Trae los registros que coincidan con el nombre
 router.get('/users/signupget/:name', renderSignUpGetMany);
@@ -32,7 +32,7 @@ router.put('/users/signup/:id', renderUpdateUser);
 router.delete('/users/signup/:id', renderDeleteUser);
 
 //iniciar sesion
-router.post('/users/signin', auth, signIn);
+router.post('/users/signin', signIn);
 
 //cerrar sesion
 router.get('/users/logout', logOut);

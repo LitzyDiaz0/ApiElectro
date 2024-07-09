@@ -4,6 +4,7 @@ require('dotenv').config();
 const auth = (req, res, next) => {
     // Verificar si hay un token en las cookies
     const token = req.cookies.token;
+    console.log("token: ", token);
 
     if (!token) {
         return res.status(400).send('No tienes acceso, inicia sesión');

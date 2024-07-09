@@ -4,16 +4,17 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const UserSchema = new mongoose.Schema ({
-    name: { type: String, required: true},
+    name: { type: String, required: true, unique: true},
     password: { type: String, required: true},
-    rol: {type: String, default: 'admin'},
-    status:{type: String, default: 'confirmado'}
+    email: { type: String, required: true, unique: true},
+    rol: {type: String, default: 'user'},
+    status:{type: String, default: 'sin confirmar'}
 
 },{
     timestamps: true
 })
 
-const User = mongoose.model('User', UserSchema);
+
 
 
 UserSchema.methods.encryptPassword = async function(password) { 
@@ -26,7 +27,9 @@ UserSchema.methods.matchPassword = async function(password) {
 };
 
 UserSchema.methods.generateAuthToken = function() {
-    return jwt.sign({ id: this._id, name: this.name }, process.env.JWT_SECRET, { expiresIn: '40m' });
+    return jwt.sign({ id: this._id, name: this.name }, process.env.JWT_SECRET, { expiresIn: '10h' });
   };  
+
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

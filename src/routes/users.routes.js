@@ -2,6 +2,7 @@ const { Router } = require('express');
 const router = Router();
 
 const auth = require('../middlewares/auth');
+const checkRoleAuth = require('../helpers/roleAuth')
 // const {validateCreate} = require('../validators/users.validator')
 
 const { renderSignUpGet,
@@ -11,13 +12,15 @@ const { renderSignUpGet,
   signUp,
   renderSignUpGetMany,
   signIn,
+  confirmarToken,
+  denegarToken,
   logOut } = require('../controllers/users.controller')
 
 // Crear usuario
 router.post('/users/signup', signUp);
 
 //Trae los registros ya guardados
-router.get('/users/signup', auth, renderSignUpGet);
+router.get('/users/signup', auth, checkRoleAuth(['admin']), renderSignUpGet);
 
 //Trae los registros que coincidan con el nombre
 router.get('/users/signupget/:name', auth, renderSignUpGetMany);
@@ -36,6 +39,12 @@ router.post('/users/signin', signIn);
 
 //cerrar sesion
 router.get('/users/logout', logOut);
+
+//Endpint de confirmacion
+router.post('/users/confirm/:token', confirmarToken);
+
+//Endpont de denegacion
+router.delete('/users/denied/:token', denegarToken);
 
 // Ejemplo de ruta protegida
 router.get('/protected', auth, (req, res) => { 

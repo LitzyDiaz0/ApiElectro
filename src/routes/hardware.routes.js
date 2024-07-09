@@ -1,14 +1,14 @@
 const { Router } = require('express');
 const router = Router();
 
-const { 
-    renderHardwareForm, 
-    createNewHardware, 
-    renderAllHardware, 
-    renderEditHardware, 
-    updateHardware, 
+const {
+    renderHardwareForm,
+    createNewHardware,
+    renderAllHardware,
+    renderEditHardware,
+    updateHardware,
     deleteRegisterHardware } = require('../controllers/hardware.controller');
-    
+
 //nuevo hardware
 router.get('/hardware/add', renderHardwareForm);
 

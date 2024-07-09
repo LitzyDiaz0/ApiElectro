@@ -100,12 +100,26 @@ usersController.renderUpdateUser = (req, res) => {
         .catch((error) => res.json({ message: error }));
 } //actualiza un usuario especifica
 
-usersController.renderDeleteUser = (req, res) => {
-    const { id } = req.params;
-    UserSchema
-        .deleteOne({ _id: id })
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error }));
+usersController.renderDeleteUser = async (req, res) => {
+    try{
+        const { id } = req.params;
+        const admin = await User.findById(id)
+        if(admin.rol === "admin"){
+            return res.status(403).send('No se puede eliminar el perfil del administrador')
+        }
+        const usuario = await User.findByIdAndDelete(req.params.id);
+        if(!usuario){
+            return res.status(404).send();
+        }
+        res.send(usuario);
+        // UserSchema
+        //     .deleteOne({ _id: id })
+        //     .then((data) => res.json(data))
+        //     .catch((error) => res.json({ message: error }));
+    }catch(err){
+        res.status(500).send(err);
+    }
+    
 } //elimina un usuario especifico
 
 usersController.renderSignInForm = (req, res) => {

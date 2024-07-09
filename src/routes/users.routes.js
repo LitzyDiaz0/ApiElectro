@@ -23,16 +23,16 @@ router.post('/users/signup', signUp);
 router.get('/users/signup', auth, checkRoleAuth(['admin']), renderSignUpGet);
 
 //Trae los registros que coincidan con el nombre
-router.get('/users/signupget/:name', auth, renderSignUpGetMany);
+router.get('/users/signupget/:name', auth, checkRoleAuth(['admin']), renderSignUpGetMany);
 
 //Trae un usuario ya registrado
-router.get('/users/signup/:name', auth, renderSignUpGetOne);
+router.get('/users/signup/:name', auth, checkRoleAuth(['admin']), renderSignUpGetOne);
 
 //Actualiza un usuario
-router.put('/users/signup/:id', auth, renderUpdateUser);
+router.put('/users/signup/:id', auth, checkRoleAuth(['admin']), renderUpdateUser);
 
 //eliminar un usuario
-router.delete('/users/signup/:id', auth, renderDeleteUser);
+router.delete('/users/signup/:id', auth, checkRoleAuth(['admin']), renderDeleteUser); 
 
 //iniciar sesion
 router.post('/users/signin', signIn);
@@ -41,14 +41,14 @@ router.post('/users/signin', signIn);
 router.get('/users/logout', logOut);
 
 //Endpint de confirmacion
-router.post('/users/confirm/:token', confirmarToken);
+router.post('/users/confirm/:token', auth, checkRoleAuth(['admin']), confirmarToken);
 
 //Endpont de denegacion
-router.delete('/users/denied/:token', denegarToken);
+router.delete('/users/denied/:token', auth, checkRoleAuth(['admin']), denegarToken);
 
 // Ejemplo de ruta protegida
-router.get('/protected', auth, (req, res) => { 
-  res.json({ message: 'Acceso autorizado a la ruta protegida' });
-});
+// router.get('/protected', auth, (req, res) => { 
+//   res.json({ message: 'Acceso autorizado a la ruta protegida' });
+// });
 
 module.exports = router; 

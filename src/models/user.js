@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema ({
 const User = mongoose.model('User', UserSchema);
 
 
-UserSchema.methods.encryptPassword = async function(password) {
+UserSchema.methods.encryptPassword = async function(password) { 
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
 };

@@ -9,7 +9,7 @@ const { renderSignUpGet,
   renderUpdateUser,
   renderDeleteUser,
   signUp,
-  renderSignInForm,
+  renderSignUpGetMany,
   signIn,
   logOut } = require('../controllers/users.controller')
 
@@ -19,8 +19,11 @@ router.post('/users/signup', signUp);
 //Trae los registros ya guardados
 router.get('/users/signup', renderSignUpGet);
 
+//Trae los registros que coincidan con el nombre
+router.get('/users/signupget/:name', renderSignUpGetMany);
+
 //Trae un usuario ya registrado
-router.get('/users/signup/:id', renderSignUpGetOne);
+router.get('/users/signup/:name', renderSignUpGetOne);
 
 //Actualiza un usuario
 router.put('/users/signup/:id', renderUpdateUser);
@@ -28,16 +31,14 @@ router.put('/users/signup/:id', renderUpdateUser);
 //eliminar un usuario
 router.delete('/users/signup/:id', renderDeleteUser);
 
-router.get('/users/signin', renderSignInForm);
-
 //iniciar sesion
-router.post('/users/signin', signIn);
+router.post('/users/signin', auth, signIn);
 
 //cerrar sesion
 router.get('/users/logout', logOut);
 
 // Ejemplo de ruta protegida
-router.get('/protected', auth, (req, res) => {
+router.get('/protected', auth, (req, res) => { 
   res.send('Ruta protegida, funciona el tokeeeen :D');
 });
 

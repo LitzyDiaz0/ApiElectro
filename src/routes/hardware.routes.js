@@ -20,6 +20,7 @@ router.post('/hardware/add', auth, checkRoleAuth(['admin']), createNewHardware);
 router.get('/hardware', auth, renderAllHardware);
 
 //Todos los hardware
+//Trae los registros que coincidan con el nombre
 
 // Editar el hardware
 router.get('/hardware/edit/:id', auth, renderEditHardware) //muestra los registro unico seleccionado

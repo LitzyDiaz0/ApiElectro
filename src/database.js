@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const {NOTES_APP_MONGODB_HOST} = process.env;
-const mongodb_url = `mongodb://${NOTES_APP_MONGODB_HOST}`;
+const mongodb_url = `mongodb+srv://${NOTES_APP_MONGODB_HOST}`;
+
 
 mongoose.connect(mongodb_url, {
 })

@@ -42,7 +42,7 @@ usersController.renderSignUpGetMany = async (req, res) =>{
         console.error(err);
         res.status(500).json({ message: 'Error del servidor' });
     }
-}//Obtinee los usuarios coincidientes
+}//Obtiene los usuarios coincidientes
 
 usersController.renderSignUpGetOne = async (req, res) => {
     const { name } = req.params;

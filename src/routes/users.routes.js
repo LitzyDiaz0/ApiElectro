@@ -20,16 +20,16 @@ router.post('/users/signup', signUp);
 router.get('/users/signup', auth, renderSignUpGet);
 
 //Trae los registros que coincidan con el nombre
-router.get('/users/signupget/:name', renderSignUpGetMany);
+router.get('/users/signupget/:name', auth, renderSignUpGetMany);
 
 //Trae un usuario ya registrado
-router.get('/users/signup/:name', renderSignUpGetOne);
+router.get('/users/signup/:name', auth, renderSignUpGetOne);
 
 //Actualiza un usuario
-router.put('/users/signup/:id', renderUpdateUser);
+router.put('/users/signup/:id', auth, renderUpdateUser);
 
 //eliminar un usuario
-router.delete('/users/signup/:id', renderDeleteUser);
+router.delete('/users/signup/:id', auth, renderDeleteUser);
 
 //iniciar sesion
 router.post('/users/signin', signIn);

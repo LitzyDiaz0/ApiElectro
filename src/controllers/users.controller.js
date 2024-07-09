@@ -1,19 +1,23 @@
 const usersController = {};
 const User = require('../models/user');
 const UserSchema = require('../models/user');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 usersController.signUp = async (req, res) => {
     const { name, password } = req.body;
-    const user = new User({ name });
-    user.password = await user.encryptPassword(password);
-    
-    try {
-        const savedUser = await user.save();
-        res.json(savedUser);
-    } catch (error) {
-        res.json({ message: error });
-    }
-}; //Regsitra al usuario
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+  
+    const newUser = new User({
+        name,
+        password: hashedPassword
+    });
+  
+    newUser.save()
+        .then((data) => res.json(data))
+        .catch((error) => res.json({ message: error }));
+  };//Regsitra al usuario *actualizado
 
 
 usersController.renderSignUpGet = (req, res) => {
@@ -53,25 +57,25 @@ usersController.renderSignInForm = (req, res) => {
 } //carga los datos para iniciar sesion
 
 usersController.signIn = async (req, res) => {
-    const { name, password } = req.body;
-    
-    try {
-        const user = await User.findOne({ name });
-        if (!user) {
-            return res.status(400).json({ message: 'Usuario no encontrado' });
-        }
-        
-        const isMatch = await user.matchPassword(password);
-        if (isMatch) {
-            res.json({ message: 'Ingreso exitoso' });
-        } else {
-            res.status(400).json({ message: 'Contraseña invalida' });
-        }
-    } catch (error) {
-        res.json({ message: error });
-    }
-}; //inicia sesion
-
+  const { name, password } = req.body;
+  try {
+      const user = await User.findOne({ name });
+      if (!user) {
+          return res.status(400).json({ message: 'User not found' });
+      }
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+          return res.status(400).json({ message: 'Invalid credentials' });
+      } else{
+        res.json({ message: 'Ingreso exitoso' });
+      }
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '20m' });
+      res.json({ token });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+  }
+}; //inicia sesion *actualizado
 
 usersController.logOut = (req, res) => {
     res.send('log out')

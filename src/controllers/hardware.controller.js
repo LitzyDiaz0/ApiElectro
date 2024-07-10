@@ -18,16 +18,20 @@ hardwareController.searchHardwareByPrice = async (req, res) => {
 hardwareController.renderHardwareForm = (req, res) => {
     res.send('Formulario de nuevo hardware');
 };
-
-// Buscar hardware por nombre (GET /hardware/search/:name)
+//busqueda por nombre
 hardwareController.searchHardwareByName = async (req, res) => {
     const { name } = req.params; 
     try {
-        const hardware = await Hardware.find({ name: new RegExp(name, 'i') }); // Búsqueda insensible a mayúsculas/minúsculas
-        res.json(hardware);
+        // Búsqueda insensible a mayúsculas/minúsculas
+        const hardware = await hardware.findOne({ name: { $regex: new RegExp(name, 'i') } }); 
+        if (!hardware) {
+            return res.status(404).json({ message: 'hardware no encontrado' });
+        }
+        res.status(200).json(hardware);
     } catch (error) {
-        res.status(400).json({ message: 'Error al buscar hardware', error });
-    }
+        console.error(error);
+        res.status(500).json({ message: 'Error del servidor' });
+    }
 };
 
 // Crear nuevo hardware (POST /hardware/add)
@@ -48,7 +52,7 @@ hardwareController.renderAllHardware = async (req, res) => {
         const hardwares = await Hardware.find();
         res.json(hardwares);
     } catch (error) {
-        res.status(400).json({ message: 'Error al obtener hardware', error });
+        res.status(400).json({ message: 'Error al obtener hardware', error }); 
     }
 };
 

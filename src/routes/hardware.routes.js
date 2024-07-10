@@ -6,7 +6,7 @@ const {
     renderHardwareForm,
     createNewHardware,
     renderAllHardware,
-    renderEditHardware,
+    renderEditHardware, 
     updateHardware,
     searchHardwareByPrice,
     searchHardwareByName,
@@ -16,11 +16,12 @@ const {
 // router.get('/hardware/add', checkRoleAuth(['admin']), auth,renderHardwareForm);
 
 router.post('/hardware/add', auth, checkRoleAuth(['admin']), createNewHardware);
+
 //Busca por precio
-router.get('/hardware/search/price/:precio', auth, checkRoleAuth(['admin']), searchHardwareByPrice);
+router.get('/hardware/search/precio/:precio', auth, searchHardwareByPrice);
 
 // Buscar hardware por nombre
-router.get('/hardware/search/:name', auth, checkRoleAuth(['admin']), searchHardwareByName);
+router.get('/hardware/search/:name', auth, searchHardwareByName);
 
 //obtener todos los harware
 router.get('/hardware', auth, renderAllHardware);
@@ -35,4 +36,4 @@ router.put('/hardware/edit/:id', auth, checkRoleAuth(['admin']), updateHardware)
 // Eliminar registros de hardware
 router.delete('/hardware/delete/:id', auth, checkRoleAuth(['admin']), deleteRegisterHardware)
 
-module.exports = router;
+module.exports = router; 

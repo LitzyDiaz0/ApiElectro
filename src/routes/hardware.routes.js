@@ -17,7 +17,7 @@ const {
 router.get('/hardware/search/:key/:attribute', auth, searchByAnyPlace);
 
 //nuevo hardware
-router.post('/hardware/add', auth, checkRoleAuth(['admin']), createNewHardware);
+router.post('/hardware/add', auth, createNewHardware);
 
 //Busca por precio
 router.get('/hardware/search/precio/:precio', auth, searchHardwareByPrice);
@@ -33,9 +33,9 @@ router.get('/hardware', auth, renderAllHardware);
 // Editar el hardware
 router.get('/hardware/edit/:id', auth, renderEditHardware) //muestra los registro unico seleccionado
 
-router.put('/hardware/edit/:id', auth, checkRoleAuth(['admin']), updateHardware) //actualiza los registros
+router.put('/hardware/edit/:id', auth, updateHardware) //actualiza los registros
 
 // Eliminar registros de hardware
-router.delete('/hardware/delete/:id', auth, checkRoleAuth(['admin']), deleteRegisterHardware)
+router.delete('/hardware/delete/:id', auth, deleteRegisterHardware)
 
 module.exports = router; 

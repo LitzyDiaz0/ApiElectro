@@ -8,6 +8,7 @@ const {
     renderAllHardware,
     renderEditHardware,
     updateHardware,
+    searchHardwareByName,
     deleteRegisterHardware } = require('../controllers/hardware.controller');
 
 //nuevo hardware
@@ -15,6 +16,10 @@ const {
 
 router.post('/hardware/add', auth, checkRoleAuth(['admin']), createNewHardware);
 
+
+
+ // Buscar hardware por nombre
+ router.get('/hardware/search/:name', auth, checkRoleAuth(['admin']), searchHardwareByName);
 
 //obtener todos los harware
 router.get('/hardware', auth, renderAllHardware);

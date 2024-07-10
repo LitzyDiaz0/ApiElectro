@@ -7,6 +7,17 @@ hardwareController.renderHardwareForm = (req, res) => {
     res.send('Formulario de nuevo hardware');
 };
 
+// Buscar hardware por nombre (GET /hardware/search/:name)
+hardwareController.searchHardwareByName = async (req, res) => {
+    const { name } = req.params; 
+    try {
+        const hardware = await Hardware.find({ name: new RegExp(name, 'i') }); // Búsqueda insensible a mayúsculas/minúsculas
+        res.json(hardware);
+    } catch (error) {
+        res.status(400).json({ message: 'Error al buscar hardware', error });
+    }
+};
+
 // Crear nuevo hardware (POST /hardware/add)
 hardwareController.createNewHardware = async (req, res) => {
     const { name, description, precio } = req.body; // Asegúrate de que 'precio' esté en minúsculas

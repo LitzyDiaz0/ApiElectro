@@ -3,16 +3,40 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const UserSchema = new mongoose.Schema ({
-    name: { type: String, required: true, unique: true},
-    password: { type: String, required: true},
-    email: { type: String, required: true, unique: true},
-    rol: {type: String, default: 'user'},
-    status:{type: String, default: 'sin confirmar'}
+const nameRegex = /^[a-zA-Z0-9]*$/; // Solo permite letras y números
 
-},{
+const UserSchema = new mongoose.Schema({
+    name: { 
+        type: String, 
+        required: true, 
+        unique: true,
+        validate: {
+            validator: function(v) {
+                return nameRegex.test(v);
+            },
+            message: props => `${props.value} contiene caracteres especiales. Solo se permiten letras y números.`
+        }
+    },
+    password: { 
+        type: String, 
+        required: true
+    },
+    email: { 
+        type: String, 
+        required: true, 
+        unique: true 
+    },
+    rol: { 
+        type: String, 
+        default: 'user' 
+    },
+    status: { 
+        type: String, 
+        default: 'sin confirmar' 
+    }
+}, {
     timestamps: true
-})
+});
 
 
 

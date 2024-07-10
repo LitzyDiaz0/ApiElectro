@@ -20,17 +20,12 @@ hardwareController.renderHardwareForm = (req, res) => {
 };
 //busqueda por nombre
 hardwareController.searchHardwareByName = async (req, res) => {
-    const { name } = req.params; 
+    const { name } = req.params;
     try {
-        // Búsqueda insensible a mayúsculas/minúsculas
-        const hardware = await hardware.findOne({ name: { $regex: new RegExp(name, 'i') } }); 
-        if (!hardware) {
-            return res.status(404).json({ message: 'hardware no encontrado' });
-        }
-        res.status(200).json(hardware);
+        const hardware = await Hardware.find({ name: String(name) });
+        res.json(hardware);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error del servidor' });
+        res.status(400).json({ message: 'Error al buscar hardware por nombre', error });
     }
 };
 

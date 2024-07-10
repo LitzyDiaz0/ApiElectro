@@ -10,11 +10,13 @@ const {
     updateHardware,
     searchHardwareByPrice,
     searchHardwareByName,
+    searchByAnyPlace,
     deleteRegisterHardware } = require('../controllers/hardware.controller');
 
-//nuevo hardware
-// router.get('/hardware/add', checkRoleAuth(['admin']), auth,renderHardwareForm);
+//busqueda por cualquier campo
+router.get ('/searchByAnyPlace/key/attribute', auth, searchByAnyPlace)
 
+//nuevo hardware
 router.post('/hardware/add', auth, checkRoleAuth(['admin']), createNewHardware);
 
 //Busca por precio

@@ -2,6 +2,34 @@ const Hardware = require('../models/hardware.js');
 
 const hardwareController = {};
 
+
+
+hardwareController.searchByAnyPlace = async (req, res) => {
+    const { key, attribute } = req.params;
+    try {
+        // Crear una expresión regular a partir del atributo
+        const searchRegex = new RegExp(attribute, 'i');
+        const search = {
+            $or: [
+                { name: searchRegex },
+                { description: searchRegex },
+                { precio: searchRegex },
+                { marca: searchRegex },
+                { modelo: searchRegex },
+                { proveedor: searchRegex }
+            ]
+        };
+
+        const hardware = await Hardware.find(search);
+        res.json(hardware);
+    } catch (error) {
+        res.status(500).json({ message: 'Error searching hardware by any place.', error });
+    }
+};
+
+
+
+
 // Buscar hardware por precio (GET /hardware/search/price/:precio)
 hardwareController.searchHardwareByPrice = async (req, res) => {
     const { precio } = req.params;
@@ -22,12 +50,14 @@ hardwareController.renderHardwareForm = (req, res) => {
 hardwareController.searchHardwareByName = async (req, res) => {
     const { name } = req.params;
     try {
-        const hardware = await Hardware.find({ name: String(name) });
+        // Usar una expresión regular para búsqueda parcial y no sensible a mayúsculas/minúsculas
+        const hardware = await Hardware.find({ name: { $regex: name, $options: 'i' } });
         res.json(hardware);
     } catch (error) {
         res.status(400).json({ message: 'Error al buscar hardware por nombre', error });
     }
 };
+
 
 
 

@@ -34,11 +34,13 @@ hardwareController.searchHardwareByName = async (req, res) => {
     }
 };
 
+
+
 // Crear nuevo hardware (POST /hardware/add)
 hardwareController.createNewHardware = async (req, res) => {
-    const { name, description, precio } = req.body; // Asegúrate de que 'precio' esté en minúsculas
+    // const { name, description, precio, marca, modelo, proveedor } = req.body; // Asegúrate de que 'precio' esté en minúsculas
     try {
-        const newHardware = new Hardware({ name, description, precio }); // Asegúrate de que 'precio' esté en minúsculas
+        const newHardware = new Hardware(req.body); // Asegúrate de que 'precio' esté en minúsculas
         await newHardware.save();
         res.status(201).json({ message: 'Nuevo hardware creado', hardware: newHardware });
     } catch (error) {

@@ -3,28 +3,26 @@ const Hardware = require('../models/hardware.js');
 const hardwareController = {};
 
 
-
+//busquedas por cualquier campo
 hardwareController.searchByAnyPlace = async (req, res) => {
     const { key, attribute } = req.params;
     try {
-        // Crear una expresión regular a partir del atributo
-        const searchRegex = new RegExp(attribute, 'i');
-        const search = {
-            $or: [
-                { name: searchRegex },
-                { description: searchRegex },
-                { precio: searchRegex },
-                { marca: searchRegex },
-                { modelo: searchRegex },
-                { proveedor: searchRegex }
-            ]
-        };
+        // Crear una expresión regular a partir del atributo sólo si la clave es de tipo String
+        let search = {};
+        if (key === 'name' || key === 'description' || key === 'marca' || key === 'modelo' || key === 'proveedor') {
+            const searchRegex = new RegExp(attribute, 'i');
+            search[key] = searchRegex;
+        } else if (key === 'precio') {
+            search[key] = Number(attribute);
+        } else {
+            return res.status(400).json({ message: 'Invalid search key.' });
+        }
 
         const hardware = await Hardware.find(search);
         res.json(hardware);
     } catch (error) {
-        res.status(500).json({ message: 'Error searching hardware by any place.', error });
-    }
+        res.status(500).json({ message: 'Error searching hardware by any place.', error });
+    }
 };
 
 

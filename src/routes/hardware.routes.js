@@ -14,7 +14,7 @@ const {
     deleteRegisterHardware } = require('../controllers/hardware.controller');
 
 //busqueda por cualquier campo
-router.get ('/searchByAnyPlace/key/attribute', auth, searchByAnyPlace)
+router.get('/hardware/search/:key/:attribute', auth, searchByAnyPlace);
 
 //nuevo hardware
 router.post('/hardware/add', auth, checkRoleAuth(['admin']), createNewHardware);

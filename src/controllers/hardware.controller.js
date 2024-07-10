@@ -2,6 +2,18 @@ const Hardware = require('../models/hardware.js');
 
 const hardwareController = {};
 
+// Buscar hardware por precio (GET /hardware/search/price/:precio)
+hardwareController.searchHardwareByPrice = async (req, res) => {
+    const { precio } = req.params;
+    try {
+        const hardware = await Hardware.find({ precio: parseFloat(precio) });
+        res.json(hardware);
+    } catch (error) {
+        res.status(400).json({ message: 'Error al buscar hardware por precio', error });
+    }
+};
+
+
 // Renderizar el formulario para nuevo hardware (GET /hardware/add)
 hardwareController.renderHardwareForm = (req, res) => {
     res.send('Formulario de nuevo hardware');

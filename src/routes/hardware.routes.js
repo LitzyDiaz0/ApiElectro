@@ -8,6 +8,7 @@ const {
     renderAllHardware,
     renderEditHardware,
     updateHardware,
+    searchHardwareByPrice,
     searchHardwareByName,
     deleteRegisterHardware } = require('../controllers/hardware.controller');
 
@@ -15,11 +16,11 @@ const {
 // router.get('/hardware/add', checkRoleAuth(['admin']), auth,renderHardwareForm);
 
 router.post('/hardware/add', auth, checkRoleAuth(['admin']), createNewHardware);
+//Busca por precio
+router.get('/hardware/search/price/:precio', auth, checkRoleAuth(['admin']), searchHardwareByPrice);
 
-
-
- // Buscar hardware por nombre
- router.get('/hardware/search/:name', auth, checkRoleAuth(['admin']), searchHardwareByName);
+// Buscar hardware por nombre
+router.get('/hardware/search/:name', auth, checkRoleAuth(['admin']), searchHardwareByName);
 
 //obtener todos los harware
 router.get('/hardware', auth, renderAllHardware);

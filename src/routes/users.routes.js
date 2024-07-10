@@ -41,7 +41,7 @@ router.post('/users/signin', signIn);
 router.get('/users/logout', logOut);
 
 //Endpint de confirmacion
-router.post('/users/confirm/:token', confirmarToken);
+router.post('/users/confirm/:token', auth, checkRoleAuth(['admin']), confirmarToken);
 
 //Endpont de denegacion
 router.delete('/users/denied/:token', auth, checkRoleAuth(['admin']), denegarToken);

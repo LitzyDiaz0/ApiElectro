@@ -29,6 +29,17 @@ hardwareController.renderAllHardware = async (req, res) => {
     }
 };
 
+// Buscar hardware por nombre (GET /hardware/search/:name)
+hardwareController.searchHardwareByName = async (req, res) => {
+    const { name } = req.params;
+    try {
+        const hardware = await Hardware.find({ name: new RegExp(name, 'i') }); // Búsqueda insensible a mayúsculas/minúsculas
+        res.json(hardware);
+    } catch (error) {
+        res.status(400).json({ message: 'Error al buscar hardware', error });
+    }
+};
+
 // Obtener hardware específico para editar (GET /hardware/edit/:id)
 hardwareController.renderEditHardware = async (req, res) => {
     const { id } = req.params;
